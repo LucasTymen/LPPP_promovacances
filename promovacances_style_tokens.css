@@ -25,10 +25,13 @@
 }
 
 /* Typo suggérée (à confirmer via DevTools “Computed”) */
+html { font-size: 18px; }
 body{
   font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-size: 1.125rem;
   color: var(--pv-ink);
   background: var(--pv-white);
+  line-height: 1.6;
 }
 
 h1,h2,h3,.pv-heading{
