@@ -1,1 +1,1 @@
-{"version":2,"framework":null,"buildCommand":null,"outputDirectory":".","installCommand":null}
+{"version":2,"framework":null,"buildCommand":null,"outputDirectory":".","installCommand":null,"rewrites":[{"source":"/p/promovacances/rapport","destination":"/rapport.html"},{"source":"/p/promovacances/rapport/","destination":"/rapport.html"}]}

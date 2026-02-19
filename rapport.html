@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport — société, stratégie, SEO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --lp-bg: #0a0a0f; --lp-text: #e8e8ed; --lp-heading: #fff; --lp-muted: #9898a8; --lp-primary: #6366f1; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; min-height: 100vh; background: var(--lp-bg); color: var(--lp-text); line-height: 1.65; padding: clamp(2rem, 5vw, 4rem); max-width: 900px; margin: 0 auto; }
+        a { color: var(--lp-primary); }
+        h1, h2, h3 { color: var(--lp-heading); }
+        table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        th, td { border: 1px solid rgba(255,255,255,0.15); padding: 0.5rem 0.75rem; text-align: left; }
+        th { background: rgba(99, 102, 241, 0.2); }
+        blockquote { border-left: 4px solid var(--lp-primary); margin: 1rem 0; padding-left: 1rem; color: var(--lp-muted); }
+        .back-link { display: inline-block; margin-bottom: 2rem; color: var(--lp-primary); text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Retour à la proposition</a>
+    <div class="rapport-body">
+<h1>Promovacances — Probing &amp; diagnostic (Tech / Réseaux / DevOps / Pentest)</h1>
+<p><strong>Site</strong> : https://www.promovacances.com/<br />
+<strong>Date</strong> : 2026-02-19<br />
+<strong>Objectif</strong> : synthèse rapide “stack visible”, exposition de l’origine, et lecture perf côté serveur (TTFB).</p>
+<hr />
+<h2>1) Résumé exécutable (TL;DR)</h2>
+<ul>
+<li>Le trafic passe par une <strong>stack embarquée</strong> : <strong>Fasterize (optimisation/cache)</strong> → <strong>Amazon CloudFront (CDN)</strong> → client.</li>
+<li>L’<strong>origine n’est pas exposée</strong> (pas de headers backend / techno serveur applicatif).</li>
+<li><strong>TTFB médian ~0,10 s</strong> (5 mesures sur la home) : côté serveur, c’est <strong>bon</strong>. Si la perf utilisateur est mauvaise, le <strong>suspect n°1 est le front</strong> (JS/CSS/rendu/LCP).</li>
+</ul>
+<hr />
+<h2>2) Technology detector (recon)</h2>
+<p><strong>Rapports source</strong> :<br />
+- <code>benchmarks/reports/technology_detector/technology_detector_20260219_164653.json</code><br />
+- <code>benchmarks/reports/technology_detector/technology_detector_20260219_164653.md</code></p>
+<h3>2.1 Headers</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Server</code></td>
+<td><code>fasterize</code></td>
+</tr>
+<tr>
+<td><code>X-Powered-By</code></td>
+<td><em>(vide)</em></td>
+</tr>
+<tr>
+<td><code>Via</code></td>
+<td><code>1.1 ddd858d5f65a619c7f96bffdd59c00a6.cloudfront.net (CloudFront)</code></td>
+</tr>
+<tr>
+<td><code>X-Cache</code></td>
+<td><code>Hit from cloudfront</code></td>
+</tr>
+</tbody>
+</table>
+<h3>2.2 DNS</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><code>195.149.66.20</code></td>
+</tr>
+<tr>
+<td>AAAA</td>
+<td><em>(—)</em></td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>www.promovacances.com.fasterized.com.</code></td>
+</tr>
+<tr>
+<td>Reverse DNS (PTR)</td>
+<td><em>(vide sur l’IP CloudFront / non exploitable)</em></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3) Type de serveur : “embarquée” ou non ?</h2>
+<p>✅ <strong>Oui : stack embarquée (CDN + optimisation)</strong><br />
+- <strong>Fasterize</strong> en couche d’optimisation/cache devant l’origine.<br />
+- <strong>CloudFront</strong> en frontal (présence dans <code>Via</code> + <code>X-Cache</code>).</p>
+<p><strong>Chaîne typique</strong> : Origine (serveur applicatif) → Fasterize → CloudFront → client.</p>
+<p>ℹ️ <strong>Origine non qualifiable</strong> avec ces seuls signaux : mutualisé / VPS / dédié / cloud <strong>indéterminable</strong> tant que l’origine ne fuit pas de headers ou d’artefacts.</p>
+<p><strong>Confiance</strong> :<br />
+- <strong>Forte</strong> sur “Fasterize + CloudFront” (CNAME + headers).<br />
+- <strong>Faible</strong> sur la techno backend (aucun header utile exposé).</p>
+<hr />
+<h2>4) TTFB (Time To First Byte)</h2>
+<p><strong>Mesures</strong> : 5 mesures sur <code>https://www.promovacances.com/</code><br />
+<strong>Médiane</strong> : <strong>~0,10 s</strong> (≈ 100 ms)</p>
+<p><strong>Interprétation projet</strong> :<br />
+- <strong>TTFB &lt; 500 ms</strong> → si la perf est “lamentable”, le coupable probable est le <strong>front-end</strong> (JS, CSS, rendu, LCP), plus que le serveur.</p>
+<hr />
+<h2>5) Recommandations (techniques &amp; SEO perf)</h2>
+<ol>
+<li><strong>Ne pas accuser le backend</strong> tant que les métriques terrain (RUM) confirment : avec un TTFB médian ~100 ms, les gains côté serveur seront souvent marginaux vs LCP/INP.</li>
+<li>Prioriser :</li>
+<li><strong>LCP</strong> : taille/ordre de chargement des ressources critiques, preloading, compression, cache.</li>
+<li><strong>JS</strong> : bundle splitting, déferrement, réduction du main thread, pruning.</li>
+<li><strong>Images</strong> : formats modernes, dimensions, lazy-load, poids.</li>
+<li>Pour identifier l’origine : collecter (si possible) cookies/headers sur endpoints non cachés, traces d’erreurs, et fingerprinting passif (sans attaque).</li>
+</ol>
+<hr />
+<h2>6) Annexes</h2>
+<ul>
+<li>Les détails (preuves brutes) sont dans les rapports <code>technology_detector_20260219_164653.*</code>.</li>
+</ul>
+    </div>
+</body>
+</html>
