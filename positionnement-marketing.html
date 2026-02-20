@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Positionnement marketing — Promovacances</title>
+  <link rel="stylesheet" href="promovacances_style_tokens.css">
+  <style>
+    :root {
+      --bg: #f7f6f5;
+      --card: #ffffff;
+      --text: #001327;
+      --muted: #9ab6c3;
+      --blue: #3999e5;
+      --line: #d4e1e6;
+    }
+    * { box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: "Roboto", system-ui, Arial, sans-serif; font-size: 1.2rem; margin: 0; padding: 20px; line-height: 1.6; }
+    h1 { font-family: "Roboto Condensed", "Roboto", system-ui; font-size: 1.7rem; margin-bottom: 8px; }
+    h2 { font-size: 1.35rem; margin: 1.5em 0 0.5em 0; color: var(--text); }
+    .subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 24px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 20px; max-width: 900px; }
+    .muted { color: var(--muted); font-size: 1.05rem; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: color-mix(in srgb, var(--bg) 96%, rgba(255,255,255,0.95)); backdrop-filter: blur(12px); border-bottom: 2px solid var(--line); }
+    .nav-logo { max-height: 36px; width: auto; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
+    .nav-links a { font-size: 1.05rem; font-weight: 500; color: var(--muted); text-decoration: none; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); }
+    .nav-links a.active { font-weight: 600; }
+    .nav-cta { padding: 0.5rem 1rem; background: var(--blue); color: #fff; font-weight: 600; font-size: 1.05rem; border-radius: 8px; text-decoration: none; }
+    body { padding-top: 60px; }
+    .card ul { margin: 0.5em 0 0 1.25em; }
+    .card li { margin-bottom: 0.4em; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 1.05rem; }
+    th, td { border: 1px solid var(--line); padding: 0.5rem 0.75rem; text-align: left; }
+    th { background: color-mix(in srgb, var(--blue) 15%, white); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Promovacances.svg" alt="Promovacances" class="nav-logo" loading="lazy"></a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="rapport.html">Rapport</a>
+      <a href="infographie-promovacances-7-formats.html">Infographie</a>
+      <a href="positionnement-marketing.html" class="active">Positionnement marketing</a>
+      <a href="index.html#coordonnees" class="nav-cta">Me contacter</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Positionnement marketing — Promovacances</h1>
+    <p class="subtitle">Résumé de la situation actuelle et de l’étude paid media (Google Ads, Meta). Données publiques — centre de transparence Google, bibliothèque publicitaire Meta. Fév. 2026.</p>
+  </header>
+
+  <section class="card">
+    <h2>Situation</h2>
+    <p>Promovacances, tourisme et réservation. Le site tourne sur une stack Fasterize + CloudFront : le serveur répond en ~0,1 s. Si une lenteur est perçue côté utilisateur, le goulot est plutôt le front (images, JS, LCP).</p>
+    <p>Le paid media est structuré sur deux canaux : Google (capture de demande, requêtes, intention) et Meta (génération de demande, offres, créas). Volume global cohérent avec une approche mature, templates et rotations longues.</p>
+  </section>
+
+  <section class="card">
+    <h2>Google Ads — ce qu’on voit</h2>
+    <p>Annonceur : Karavel SAS (promovacances.com). Environ 3 000 annonces actives, région France, thème « Voyage et tourisme ».</p>
+    <table>
+      <thead>
+        <tr><th>Thème</th><th>Impressions</th><th>Période</th><th>Dernière diffusion</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sardaigne</td><td>800k – 900k</td><td>avr. 2023 → nov. 2025</td><td>fév. 2026</td></tr>
+        <tr><td>All inclusive</td><td>100k – 125k</td><td>nov. 2024 → nov. 2025</td><td>fév. 2026</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">PPC structuré. Thèmes destination et offre en rotation longue. Volume compatible avec une approche template / feed / automatisée.</p>
+  </section>
+
+  <section class="card">
+    <h2>Meta (Facebook / Instagram) — ce qu’on voit</h2>
+    <p>Ciblage déclaré : France, 18–65 ans et plus, tous genres. Large, piloté par l’algo. Sujets : destinations (Émirats, Grèce, etc.), clubs (Framissima), tout inclus, promos (-30 %, etc.).</p>
+    <p>Exemples de couverture : une pub type « Des séjours faciles, fiables… » autour de 129 000 comptes. Une variante Émirats -30 % (vidéo 15 s) avec une répartition âge où ~57 % du reach part en 65+. Club Framissima Grèce : diffusion active, répartition 45+ cumulée à ~70 %, ~66 % femmes.</p>
+    <p class="muted">Sans accès au compte, on ne voit pas lookalike, retargeting, ni objectif (clics vs conversions). Le diagnostic reste orienté structure et créas.</p>
+  </section>
+
+  <section class="card">
+    <h2>Hypothèses et pistes</h2>
+    <p>Broad ne veut pas dire hasard : avec un ciblage large, l’algo optimise selon l’objectif et les réactions. La sur-représentation 45+ / 65+ peut venir du message (club 5★, sérénité, plage) autant que d’un ciblage explicite.</p>
+    <p>Piste : segmenter par créa plutôt que par audience. Garder le broad pour l’apprentissage, mais différencier les messages (Ibiza/Goa vs sérénité vs famille) au lieu de serrer le ciblage âge.</p>
+    <p>À approfondir : mots-clés payants et positions (Google) ; analyse des créas et cohérence landing (Meta) ; LPV/clic et CVR/CPA par âge et placement si les données sont dispo.</p>
+  </section>
+
+  <section class="card">
+    <p class="muted">Sources : <a href="https://adstransparency.google.com" target="_blank" rel="noopener">Google Ads Transparency</a>, Meta Ad Library (recherche « Promovacances » ou promovacances.com). Étude interne, données publiques. Recalibrer avec vos données pour un usage opérationnel.</p>
+  </section>
+</body>
+</html>
