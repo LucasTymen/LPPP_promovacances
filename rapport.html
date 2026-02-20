@@ -120,107 +120,109 @@ body:has(.nav) .nav-links a:hover { color: var(--lp-primary) !important; }
     </nav>
     <main class="page-wrap">
         <p class="report-intro">Ce rapport synthétise <strong>ce qui s'applique à Promovacances</strong> — diagnostic, opportunités et plan d'action.</p>
-        <div class="report-body"><h1>Promovacances — Probing &amp; diagnostic (Tech / Réseaux / DevOps / Pentest)</h1>
-<p><strong>Site</strong> : https://www.promovacances.com/<br />
-<strong>Date</strong> : 2026-02-19<br />
-<strong>Objectif</strong> : synthèse rapide “stack visible”, exposition de l’origine, et lecture perf côté serveur (TTFB).</p>
-<hr />
-<h2>1) Résumé exécutable (TL;DR)</h2>
-<ul>
-<li>Le trafic passe par une <strong>stack embarquée</strong> : <strong>Fasterize (optimisation/cache)</strong> → <strong>Amazon CloudFront (CDN)</strong> → client.</li>
-<li>L’<strong>origine n’est pas exposée</strong> (pas de headers backend / techno serveur applicatif).</li>
-<li><strong>TTFB médian ~0,10 s</strong> (5 mesures sur la home) : côté serveur, c’est <strong>bon</strong>. Si la perf utilisateur est mauvaise, le <strong>suspect n°1 est le front</strong> (JS/CSS/rendu/LCP).</li>
-</ul>
-<hr />
-<h2>2) Technology detector (recon)</h2>
-<p><strong>Rapports source</strong> :<br />
-- <code>benchmarks/reports/technology_detector/technology_detector_20260219_164653.json</code><br />
-- <code>benchmarks/reports/technology_detector/technology_detector_20260219_164653.md</code></p>
-<h3>2.1 Headers</h3>
-<table>
-<thead>
-<tr>
-<th>Header</th>
-<th>Valeur</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Server</code></td>
-<td><code>fasterize</code></td>
-</tr>
-<tr>
-<td><code>X-Powered-By</code></td>
-<td><em>(vide)</em></td>
-</tr>
-<tr>
-<td><code>Via</code></td>
-<td><code>1.1 ddd858d5f65a619c7f96bffdd59c00a6.cloudfront.net (CloudFront)</code></td>
-</tr>
-<tr>
-<td><code>X-Cache</code></td>
-<td><code>Hit from cloudfront</code></td>
-</tr>
-</tbody>
-</table>
-<h3>2.2 DNS</h3>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Valeur</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td><code>195.149.66.20</code></td>
-</tr>
-<tr>
-<td>AAAA</td>
-<td><em>(—)</em></td>
-</tr>
-<tr>
-<td>CNAME</td>
-<td><code>www.promovacances.com.fasterized.com.</code></td>
-</tr>
-<tr>
-<td>Reverse DNS (PTR)</td>
-<td><em>(vide sur l’IP CloudFront / non exploitable)</em></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2>3) Type de serveur : “embarquée” ou non ?</h2>
-<p>✅ <strong>Oui : stack embarquée (CDN + optimisation)</strong><br />
-- <strong>Fasterize</strong> en couche d’optimisation/cache devant l’origine.<br />
-- <strong>CloudFront</strong> en frontal (présence dans <code>Via</code> + <code>X-Cache</code>).</p>
-<p><strong>Chaîne typique</strong> : Origine (serveur applicatif) → Fasterize → CloudFront → client.</p>
-<p>ℹ️ <strong>Origine non qualifiable</strong> avec ces seuls signaux : mutualisé / VPS / dédié / cloud <strong>indéterminable</strong> tant que l’origine ne fuit pas de headers ou d’artefacts.</p>
-<p><strong>Confiance</strong> :<br />
-- <strong>Forte</strong> sur “Fasterize + CloudFront” (CNAME + headers).<br />
-- <strong>Faible</strong> sur la techno backend (aucun header utile exposé).</p>
-<hr />
-<h2>4) TTFB (Time To First Byte)</h2>
-<p><strong>Mesures</strong> : 5 mesures sur <code>https://www.promovacances.com/</code><br />
-<strong>Médiane</strong> : <strong>~0,10 s</strong> (≈ 100 ms)</p>
-<p><strong>Interprétation projet</strong> :<br />
-- <strong>TTFB &lt; 500 ms</strong> → si la perf est “lamentable”, le coupable probable est le <strong>front-end</strong> (JS, CSS, rendu, LCP), plus que le serveur.</p>
-<hr />
-<h2>5) Recommandations (techniques &amp; SEO perf)</h2>
+        <div class="report-body"><h1>Promovacances — PPP (candidature)</h1>
+<p>Landing <strong>rapport complet</strong> pour la société Promovacances (tourisme / vacances).</p>
+<h2>Créer la landing en base (une seule fois)</h2>
 <ol>
-<li><strong>Ne pas accuser le backend</strong> tant que les métriques terrain (RUM) confirment : avec un TTFB médian ~100 ms, les gains côté serveur seront souvent marginaux vs LCP/INP.</li>
-<li>Prioriser :</li>
-<li><strong>LCP</strong> : taille/ordre de chargement des ressources critiques, preloading, compression, cache.</li>
-<li><strong>JS</strong> : bundle splitting, déferrement, réduction du main thread, pruning.</li>
-<li><strong>Images</strong> : formats modernes, dimensions, lazy-load, poids.</li>
-<li>Pour identifier l’origine : collecter (si possible) cookies/headers sur endpoints non cachés, traces d’erreurs, et fingerprinting passif (sans attaque).</li>
+<li><strong>Racine projet</strong> : se placer dans le répertoire LPPP (celui qui contient <code>Makefile</code>, <code>manage.py</code>, <code>docker-compose.yml</code>).</li>
+<li><strong>Stack Docker</strong> : si les services ne tournent pas, lancer le stack puis créer la landing :</li>
 </ol>
-<hr />
-<h2>6) Annexes</h2>
+<p><code>bash
+   make landing-promovacances-full</code><br />
+   (Enchaîne <code>make start</code> puis <code>make landing-promovacances</code>.)</p>
+<p>Si le stack est déjà démarré :</p>
+<p><code>bash
+   make landing-promovacances</code></p>
+<p>Procédure coordonnée (Chef de Projet, DevOps, Architecte, Ingénieur Sys) :<br />
+<code>docs/base-de-connaissances/segmentations/2026-02-19-landing-promovacances-creation-coordonnee.md</code></p>
+<h2>Repo landing (LPPP_promovacances)</h2>
+<table>
+<thead>
+<tr>
+<th>Plateforme</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GitHub</strong></td>
+<td><code>https://github.com/LucasTymen/LPPP_promovacances</code> (principal)</td>
+</tr>
+<tr>
+<td><strong>GitLab</strong></td>
+<td><code>https://gitlab.com/LucasTymen/lppp_promovacances</code> (miroir)</td>
+</tr>
+<tr>
+<td><strong>Vercel</strong></td>
+<td>Projet <strong>lppp-promovacances</strong> (tiret) lié au repo GitHub. 1 repo = 1 projet.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Push</strong> : <code>deploy/push-promovacances.ps1</code> ou voir <code>deploy/PUSH-PROMOVACANCES.md</code>. Ne jamais pousser <code>node_modules</code> (déjà dans <code>.gitignore</code> racine).</p>
+<h2>URLs</h2>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/p/promovacances/</code></td>
+<td>Page proposition (hero, intro, CTA vers dashboard).</td>
+</tr>
+<tr>
+<td><code>/p/promovacances/audit-dashboard/</code></td>
+<td>Dashboard audit SEO (score, timeline, compteur perte, bullet, waterfall, recovery).</td>
+</tr>
+</tbody>
+</table>
+<h2>Dashboard audit SEO</h2>
 <ul>
-<li>Les détails (preuves brutes) sont dans les rapports <code>technology_detector_20260219_164653.*</code>.</li>
-</ul></div>
+<li><strong>Données</strong> : <code>audit-dashboard.json</code> (structure identique au modèle Casapy, contenu adapté tourisme).</li>
+</ul>
+<p>Les chiffres du JSON (TTFB, LCP, score, scénarios, pertes estimées, recovery rings) sont des <strong>valeurs de démonstration</strong>. Remplacer par les données réelles de l’audit une fois les mesures effectuées.</p>
+<h2>Fichiers</h2>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>audit-dashboard.json</code></td>
+<td>Contenu du dashboard (titres, score, timeline, scénarios, bullet, waterfall, recovery).</td>
+</tr>
+<tr>
+<td><code>landing-proposition-promovacances.json</code></td>
+<td>Contenu de la page proposition (hero, intro, CTA, lien dashboard).</td>
+</tr>
+<tr>
+<td><code>spec-infographiques-visuel-contextuel-promovacances.md</code></td>
+<td>Spec pour graphiste : data + contexte court pour chaque bloc (jauges, chaîne priorité, scénarios, plan).</td>
+</tr>
+<tr>
+<td><code>promovacances-marketing-study-en.md</code></td>
+<td>Marketing study (EN) : SEO perf + paid media (Google Ads, Meta), version étude.</td>
+</tr>
+<tr>
+<td><code>positionnement-marketing.html</code></td>
+<td>Onglet « Positionnement marketing » : résumé situation + étude paid media (Google, Meta).</td>
+</tr>
+<tr>
+<td><code>analyse-marketing-paid-media.md</code></td>
+<td>Synthèse paid media (FR).</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>Ce fichier.</td>
+</tr>
+</tbody>
+</table>
+<p>Voir <code>docs/base-de-connaissances/audit-dashboard-modele-seo.md</code> pour la structure complète du JSON et la marche à suivre.</p></div>
     </main>
 </body>
 </html>
