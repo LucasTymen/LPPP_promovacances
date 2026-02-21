@@ -83,14 +83,14 @@ body:has(.nav) .nav-links a:hover { color: var(--lp-primary) !important; }
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--lp-font-body, 'Roboto', system-ui, sans-serif); margin: 0; min-height: 100vh; background: var(--lp-bg, #0d0d0d); color: var(--lp-text, #e6e6e6); line-height: 1.6; font-size: 1.2rem; }
-        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: color-mix(in srgb, var(--lp-bg, #0d0d0d) 94%, transparent); backdrop-filter: blur(12px); border-bottom: 2px solid color-mix(in srgb, var(--lp-primary, #4a9eff) 50%, transparent); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 1rem; background: color-mix(in srgb, var(--lp-bg, #0d0d0d) 94%, transparent); backdrop-filter: blur(12px); border-bottom: 2px solid color-mix(in srgb, var(--lp-primary, #4a9eff) 50%, transparent); }
         .nav-logo { max-height: 36px; width: auto; }
         .nav-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
         .nav-links a { font-size: 1.05rem; font-weight: 500; color: var(--lp-muted, #999); text-decoration: none; transition: color 0.2s var(--lp-ease); }
         .nav-links a:hover { color: var(--lp-primary, #4a9eff); }
         .nav-links a.active { color: var(--lp-primary, #4a9eff); font-weight: 600; }
         .nav-cta { display: inline-block; padding: 0.5rem 1rem; background: var(--lp-primary, #4a9eff); color: var(--lp-cta-text, #fff); font-weight: 600; font-size: 1.05rem; border-radius: 8px; text-decoration: none; }
-        .page-wrap { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; padding-top: calc(2rem + 52px); }
+        .page-wrap { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; padding-top: calc(2rem + 44px); }
         .report-body h1, .report-body h2, .report-body h3 { color: var(--lp-heading, #fff); margin-top: 1.5em; margin-bottom: 0.5em; }
         .report-body h1 { font-size: 1.75rem; border-bottom: 2px solid var(--lp-primary, #4a9eff); padding-bottom: 0.25em; }
         .report-body h2 { font-size: 1.35rem; }
@@ -102,9 +102,23 @@ body:has(.nav) .nav-links a:hover { color: var(--lp-primary) !important; }
         .report-body th { background: color-mix(in srgb, var(--lp-primary, #4a9eff) 15%, var(--lp-bg, #0d0d0d)); color: var(--lp-heading, #fff); }
         .report-body blockquote { margin: 1rem 0; padding-left: 1rem; border-left: 4px solid var(--lp-primary, #4a9eff); color: var(--lp-muted, #999); }
         .report-intro { margin: 0 0 1.5rem; padding: 0.85rem 1rem; background: color-mix(in srgb, var(--lp-primary, #4a9eff) 12%, var(--lp-bg, #0d0d0d)); border-left: 4px solid var(--lp-primary, #4a9eff); font-size: 1.1rem; color: var(--lp-text, #e6e6e6); }
+        .site-bg-fixed { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
+        .site-bg-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; min-width: 100vw; height: 56.25vw; min-height: 100vh; max-height: none; }
+        .site-bg-video iframe, .site-bg-video video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; min-width: 100vw; height: 56.25vw; min-height: 100vh; object-fit: cover; }
+        .site-bg-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 100%); }
+        .site-content { position: relative; z-index: 1; min-height: 100vh; }
     </style>
 </head>
 <body>
+    
+    <div class="site-bg-fixed">
+        <div class="site-bg-video">
+            <video autoplay muted loop playsinline aria-hidden="true"><source src="hero-promovacances.mp4" type="video/mp4"></video>
+        </div>
+        <div class="site-bg-overlay"></div>
+    </div>
+    
+    <div class="site-content">
     <nav class="nav">
         
         <a href="index.html"><img src="https://www.promovacances.com/resources/static/dist/pmvc/logo-desktop.svg?r=6eba0f566b7a69cbbf505f8bc684d44f" alt="Promovacances" class="nav-logo" loading="lazy"></a>
@@ -122,6 +136,7 @@ body:has(.nav) .nav-links a:hover { color: var(--lp-primary) !important; }
         <p class="report-intro">Ce rapport synthétise <strong>ce qui s'applique à Promovacances</strong> — diagnostic, opportunités et plan d'action.</p>
         <div class="report-body"><h1>Promovacances — PPP (candidature)</h1>
 <p>Landing <strong>rapport complet</strong> pour la société Promovacances (tourisme / vacances).</p>
+<p><strong>Modèle de référence</strong> : ce projet sert de <strong>base de départ</strong> pour les futures landings similaires. Voir <code>docs/base-de-connaissances/template-landing-promovacances-base-depart.md</code>.</p>
 <h2>Créer la landing en base (une seule fois)</h2>
 <ol>
 <li><strong>Racine projet</strong> : se placer dans le répertoire LPPP (celui qui contient <code>Makefile</code>, <code>manage.py</code>, <code>docker-compose.yml</code>).</li>
@@ -224,5 +239,6 @@ body:has(.nav) .nav-links a:hover { color: var(--lp-primary) !important; }
 </table>
 <p>Voir <code>docs/base-de-connaissances/audit-dashboard-modele-seo.md</code> pour la structure complète du JSON et la marche à suivre.</p></div>
     </main>
+    </div>
 </body>
 </html>

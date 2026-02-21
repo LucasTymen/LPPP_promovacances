@@ -18,10 +18,10 @@
       --line: #d4e1e6;
     }
     * { box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: "Roboto", system-ui, Arial, sans-serif; font-size: 1.2rem; margin: 0; padding: 20px; line-height: 1.6; }
+    body { margin: 0; padding: 0; color: var(--text); font-family: "Roboto", system-ui, Arial, sans-serif; font-size: 1.2rem; line-height: 1.6; }
     h1 { font-family: "Roboto Condensed", "Roboto", system-ui; font-size: 1.7rem; margin-bottom: 8px; }
     .subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 24px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; max-width: 980px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 20px; max-width: 980px; margin-left: auto; margin-right: auto; }
     .card h2 { font-size: 1.35rem; margin: 0 0 8px 0; }
     .muted { color: var(--muted); font-size: 1.05rem; margin-top: 6px; }
     .timeline-wrap { position: relative; }
@@ -31,19 +31,29 @@
     .meter-value { font-size: 2rem; font-weight: 800; color: var(--red); transition: transform 0.15s ease; }
     .meter-value.tick { transform: scale(1.05); }
     .ring-progress { transition: stroke-dasharray 0.8s ease-out; }
+    .speedo-wrap { display: flex; justify-content: center; margin: 1rem 0; }
+    .ring-wrap { display: flex; flex-direction: column; align-items: center; }
     @media (prefers-reduced-motion: reduce) { .tick, .ring-progress { animation: none !important; } }
     /* Nav fixe (comme sur tout le site) */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: color-mix(in srgb, var(--bg) 96%, rgba(255,255,255,0.95)); backdrop-filter: blur(12px); border-bottom: 2px solid var(--line); }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 1rem; background: color-mix(in srgb, var(--bg) 96%, rgba(255,255,255,0.95)); backdrop-filter: blur(12px); border-bottom: 2px solid var(--line); }
     .nav-logo { max-height: 36px; width: auto; }
     .nav-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
     .nav-links a { font-size: 1.05rem; font-weight: 500; color: var(--muted); text-decoration: none; }
     .nav-links a:hover, .nav-links a.active { color: var(--blue); }
     .nav-links a.active { font-weight: 600; }
     .nav-cta { padding: 0.5rem 1rem; background: var(--blue); color: #fff; font-weight: 600; font-size: 1.05rem; border-radius: 8px; text-decoration: none; }
-    body { padding-top: 60px; }
+    header { max-width: 980px; margin: 0 auto; padding: 0 20px 24px; }
+    body { padding-top: 0; }
   </style>
 </head>
 <body>
+  <div class="site-bg-fixed">
+    <div class="site-bg-video">
+      <video autoplay muted loop playsinline aria-hidden="true"><source src="hero-promovacances.mp4" type="video/mp4"></video>
+    </div>
+    <div class="site-bg-overlay"></div>
+  </div>
+  <div class="site-content">
   <nav class="nav">
     <a href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Promovacances.svg" alt="Promovacances" class="nav-logo" loading="lazy"></a>
     <div class="nav-links">
@@ -54,6 +64,7 @@
       <a href="index.html#coordonnees" class="nav-cta">Me contacter</a>
     </div>
   </nav>
+  <div class="site-content-inner">
   <header>
     <h1>Promovacances — Diagnostic perf & manque à gagner</h1>
     <p class="subtitle">7 formats visuels (score global, timeline utilisateur, compteur perte, bullet chart, heatmap, waterfall, recovery). Données : TTFB ~0,1 s, LCP 5,2 s, 28 k€/mois. Priorité : front (Images & LCP, JS).</p>
@@ -151,9 +162,11 @@
     </div>
   </section>
 
-  <footer class="muted" style="margin-top:24px;font-size:0.8rem;">
+  <footer class="muted" style="margin-top:24px;font-size:0.8rem;max-width:980px;margin-left:auto;margin-right:auto;">
     Promovacances — 7 formats (score, timeline, compteur perte, bullet, heatmap, waterfall, recovery). Données TTFB probing 2026, stack Fasterize + CloudFront.
   </footer>
+  </div>
+  </div>
 
   <script>
 (function() {
